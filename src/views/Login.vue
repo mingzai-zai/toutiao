@@ -7,7 +7,7 @@
         <div class="inputs">
           <inputs
             placeholder="请输入用户名/手机号码"
-            :value="obj.username"
+            :value="users.username"
             :rules="/^(\d{5,6})$|^(1\d{10})$/"
             @input="gai"
             msg="用户名不正确"
@@ -16,7 +16,7 @@
             placeholder="请输入密码"
             :rules="/^\d{3,16}$/"
             msg="请输入3~16位密码"
-            v-model="obj.passwrod"
+            v-model="users.password"
           ></inputs>
         </div>
         <p class="tips">
@@ -31,13 +31,14 @@
 
 <script>
 import btn from "@/components/button.vue";
+import {login} from '@/apis/user.js'
 import inputs from "@/components/input.vue";
 export default {
   data() {
     return {
-      obj: {
-        username: "111",
-        passwrod: ""
+      users: {
+        username: "10086",
+        password: ""
       }
     };
   },
@@ -46,11 +47,32 @@ export default {
     inputs
   },
   methods: {
-    login() {
-      console.log(this.obj);
+    async login() {
+        // console.log(this.users);
+      let res = await login(this.users);
+      // console.log(res);
+        // .then(res => {
+        //   console.log(res);
+        // })
+        // .catch(err => {
+        //   console.log(err);
+        // });
+        if(/^(\d{5,6})$|^(1\d{10})$/.test(this.users.username) && /^\d{3,16}$/.test(this.users.password)) {
+          // console.log(res);
+          if(res.data.message==='用户不存在'){
+            this.$toast.fail('用户不存在')
+          }else {
+            // console.log(res.data.data.user)
+            localStorage.setItem('user_token',res.data.data.token)
+            localStorage.setItem('user_msg',JSON.stringify(res.data.data.user))
+            this.$router.push({name:'Personal'})
+          }
+        }else {
+          this.$toast.fail('数据书写失败')
+        }
     },
     gai(data) {
-      this.obj.username = data;
+      this.users.username = data;
       //   console.log(this.obj)
     }
   }
