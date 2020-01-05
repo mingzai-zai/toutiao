@@ -65,7 +65,7 @@ export default {
             // console.log(res.data.data.user)
             localStorage.setItem('user_token',res.data.data.token)
             localStorage.setItem('user_msg',JSON.stringify(res.data.data.user))
-            this.$router.push({name:'Personal'})
+            this.$router.push({path:`/personal/${res.data.data.user.id}`})
           }
         }else {
           this.$toast.fail('数据书写失败')

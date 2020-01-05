@@ -1,0 +1,29 @@
+<template>
+  <div class="cell">
+    <div class="left">{{zuo}}</div>
+    <div class="right">{{you}}<span class="iconfont iconjiantou1"></span></div>
+  </div>
+</template>
+
+<script>
+export default {
+    props:['zuo','you']
+};
+</script>
+
+<style lang="less" scoped>
+.cell {
+  display: flex;
+  margin: 15px;
+  padding: 10px 0;
+  justify-content:space-between;
+  border-bottom: 1px solid #ccc;
+  >.left {
+      font-size: 20px;
+  }
+  >.right {
+      font-size: 14px;
+      color: #666;
+  }
+}
+</style>

@@ -3,31 +3,61 @@
     <router-link to="/edit_profile">
       <div class="profile">
         <!-- $axios.defaults.baseURL读取axios的服务器路径 -->
-        <img src="http://img1.imgtn.bdimg.com/it/u=3757784226,1202878475&fm=26&gp=0.jpg" alt />
+        <img :src="user.head_msg" alt />
         <div class="profile-center">
           <div class="name">
-            <span class="iconfont iconxingbienan"></span>我就是我
+            <span class="iconfont iconxingbienan"></span>{{ user.nickname }}
           </div>
-          <div class="time">2019-9-24</div>
+          <div class="time">{{ user.create_date }}</div>
         </div>
         <span class="iconfont iconjiantou1"></span>
       </div>
     </router-link>
+    <cell zuo="我的关注" you="关注的用户"></cell>
+    <cell zuo="我的跟帖" you="跟帖/恢复"></cell>
+    <cell zuo="我的收藏" you="文章/视频"></cell>
+    <cell zuo="设置" you=""></cell>
+    <buttons id="btn"> 退出</buttons>
   </div>
 </template>
 
 <script>
-export default {}
+import cell from "@/components/cell.vue";
+import buttons from "@/components/button.vue";
+import { getUserId } from "@/apis/user.js";
+export default {
+  data() {
+    return {
+      user: {}
+    };
+  },
+  components: {
+    cell,
+    buttons
+  },
+  async mounted() {
+    let { id } = this.$route.params;
+    // console.log(id);
+    let res = await getUserId(id);
+    console.log(res);
+    if (res.data.message === "获取成功") {
+      this.user = res.data.data;
+      this.user.head_img = "http://127.0.0.1:3000" + res.data.data.head_img;
+    }else {
+        this.$router.push({name:'Login'})
+    }
+  }
+};
 </script>
 
-<style lang='less' scoped>
-.personal{
-    width: 100vw;
-    height: 100vh;
-    background-color: #eee;
+<style lang="less" scoped>
+.personal {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eee;
 }
-a{
-    color: #666;
+a {
+  color: #666;
 }
 .profile {
   display: flex;
@@ -58,5 +88,8 @@ a{
     font-size: 14px;
     margin-top: 5px;
   }
+}
+#btn {
+  margin: 0 auto;
 }
 </style>

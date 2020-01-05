@@ -6,3 +6,10 @@ export const login = data => {
     data
   });
 };
+export const getUserId = id =>{
+  return axios({
+    url:`/user/${id}`,
+    headers:{'Authorization':localStorage.getItem('user_token') }
+  })
+
+}
