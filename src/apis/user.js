@@ -11,5 +11,12 @@ export const getUserId = id =>{
     url:`/user/${id}`,
     headers:{'Authorization':localStorage.getItem('user_token') }
   })
+}
 
+export const updataUserByID =(id,data)=>{
+  return axios({
+    url:`/user_update/${id}`,
+    method:'post',
+    data
+  })
 }
