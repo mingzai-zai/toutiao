@@ -3,7 +3,7 @@
     <router-link to="/edit_profile">
       <div class="profile">
         <!-- $axios.defaults.baseURL读取axios的服务器路径 -->
-        <img :src="user.head_msg" alt />
+        <img :src="user.head_img" alt />
         <div class="profile-center">
           <div class="name">
             <span class="iconfont iconxingbienan"></span>{{ user.nickname }}
@@ -43,9 +43,10 @@ export default {
     if (res.data.message === "获取成功") {
       this.user = res.data.data;
       this.user.head_img = "http://127.0.0.1:3000" + res.data.data.head_img;
-    }else {
-        this.$router.push({name:'Login'})
     }
+    // else {
+    //     this.$router.push({name:'Login'})
+    // }
   }
 };
 </script>
