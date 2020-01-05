@@ -1,6 +1,6 @@
 <template>
   <div class="personal">
-    <router-link to="/edit_profile">
+    <router-link :to="{path:`/editpersonal/${user.id}`}">
       <div class="profile">
         <!-- $axios.defaults.baseURL读取axios的服务器路径 -->
         <img :src="user.head_img" alt />
@@ -39,7 +39,7 @@ export default {
     let { id } = this.$route.params;
     // console.log(id);
     let res = await getUserId(id);
-    console.log(res);
+    // console.log(res);
     if (res.data.message === "获取成功") {
       this.user = res.data.data;
       this.user.head_img = "http://127.0.0.1:3000" + res.data.data.head_img;

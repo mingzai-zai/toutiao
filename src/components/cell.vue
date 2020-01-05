@@ -1,13 +1,13 @@
 <template>
   <div class="cell">
     <div class="left">{{zuo}}</div>
-    <div class="right">{{you}}<span class="iconfont iconjiantou1"></span></div>
+    <div class="right">{{type==='password'?'******':you}}<span class="iconfont iconjiantou1"></span></div>
   </div>
 </template>
 
 <script>
 export default {
-    props:['zuo','you']
+    props:['zuo','you','type']
 };
 </script>
 

@@ -3,8 +3,9 @@ import App from './App.vue'
 import router from '@/router/index.js'
 // 引入全局样式
 import '@/styles/reset.css'
-import { Toast } from 'vant'
+import { Toast,Uploader  } from 'vant'
 Vue.use(Toast)
+   .use(Uploader)
 router.beforeEach((to,from,next)=>{
   // console.log(to)
   // next();

@@ -2,7 +2,7 @@ import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3000';
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
-    console.log(config)
+    // console.log(config)
     let token = localStorage.getItem('user_token')
     if(token) {
         config.headers.Authorization=token;
@@ -15,7 +15,7 @@ axios.interceptors.request.use(function (config) {
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
     // 对响应数据做点什么
-    console.log(response)
+    // console.log(response)
     if(response.data.message==='用户信息验证失败'|| response.data.message==='用户信息验证失败！'||response.data.message==='用户信息验证失!') {
         window.location.href='#/login'
     }
