@@ -17,7 +17,7 @@
     <cell zuo="我的跟帖" you="跟帖/恢复"></cell>
     <cell zuo="我的收藏" you="文章/视频"></cell>
     <cell zuo="设置" you=""></cell>
-    <buttons id="btn"> 退出</buttons>
+    <buttons id="btn" @click="exit"> 退出</buttons>
   </div>
 </template>
 
@@ -47,6 +47,14 @@ export default {
     // else {
     //     this.$router.push({name:'Login'})
     // }
+  },
+  methods: {
+    exit(){
+      localStorage.removeItem('user_token');
+      localStorage.removeItem('user_msg');
+      // location.href='#/login'
+      this.$router.push({name:'Login'})
+    }
   }
 };
 </script>
