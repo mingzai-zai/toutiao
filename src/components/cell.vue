@@ -1,5 +1,5 @@
 <template>
-  <div class="cell">
+  <div class="cell" @click="show">
     <div class="left">{{zuo}}</div>
     <div class="right">{{type==='password'?'******':you}}<span class="iconfont iconjiantou1"></span></div>
   </div>
@@ -7,7 +7,12 @@
 
 <script>
 export default {
-    props:['zuo','you','type']
+    props:['zuo','you','type'],
+    methods: {
+      show(event){
+      this.$emit('click',event)
+      }
+    }
 };
 </script>
 
