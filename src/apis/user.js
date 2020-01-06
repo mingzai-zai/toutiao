@@ -20,3 +20,11 @@ export const updataUserByID =(id,data)=>{
     data
   })
 }
+
+export const registerUser = (data)=>{
+  return axios({
+    method:'post',
+    url:'/register',
+    data,
+  })
+}
