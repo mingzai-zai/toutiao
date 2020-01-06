@@ -4,11 +4,17 @@ import Login from '@/views/Login.vue';
 import Personal from '@/views/Personal.vue'
 import Editpersonal from '@/views/Editpersonal.vue'
 import Register from '@/views/Register.vue'
+import Index from "@/views/Index.vue"
 Vue.use(VueRouter);
 
 
 let router = new VueRouter({
     routes:[
+        {
+            name:'Index',
+            path:'/',
+            component:Index
+        },
         {
             name:'Login',
             path:'/login',
