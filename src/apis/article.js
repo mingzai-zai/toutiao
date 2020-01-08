@@ -12,3 +12,9 @@ export const getArticleById = (id)=>{
         url:`/post/${id}`,
     })
 }
+//文章id点赞
+export const getLikeById = (id)=>{
+    return axios({
+        url:`/post_like/${id}`,
+    })
+}
