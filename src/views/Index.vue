@@ -27,6 +27,7 @@
               v-for="value in cate.postlist"
               :key="value.id"
               :post="value"
+              @click='$router.push({path:`/articleDetail/${value.id}`})'
             ></articles>
           </van-pull-refresh>
         </van-list>

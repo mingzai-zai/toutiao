@@ -1,5 +1,5 @@
 <template>
-  <div class="single" v-if="post.type === 1 && post.cover.length <= 2">
+  <div class="single" v-if="post.type === 1 && post.cover.length <= 2" @click="tiao">
     <div class="left">
       <p class="content">{{ post.title }}</p>
       <p class="info">
@@ -9,7 +9,7 @@
     </div>
     <img :src="post.cover[0].url" alt />
   </div>
-  <div class="singlev" v-else-if="post.type === 2">
+  <div class="singlev" v-else-if="post.type === 2" @click="tiao">
     <div class="middle">
       <p class="content">{{ post.title }}</p>
       <div class="imgs">
@@ -23,7 +23,7 @@
       </p>
     </div>
   </div>
-  <div class="singlet" v-else-if="post.type === 1 && post.cover.length >= 3">
+  <div class="singlet" v-else-if="post.type === 1 && post.cover.length >= 3" @click="tiao">
     <div class="middle">
       <p class="content">{{ post.title }}</p>
       <div class="imgs"> <img :src="e.url" alt v-for="e in post.cover" :key="e.id" /></div>
@@ -37,7 +37,12 @@
 
 <script>
 export default {
-  props: ["post"]
+  props: ["post"],
+  methods: {
+    tiao(e){
+      this.$emit('click',e)
+    }
+  }
 };
 </script>
 
