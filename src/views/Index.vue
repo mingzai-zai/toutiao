@@ -22,7 +22,7 @@
           :immediate-check="false"
           :offset="10"
         >
-          <van-pull-refresh v-model="catelist.isLoading" @refresh="onRefresh">
+          <van-pull-refresh v-model="cate.isLoading" @refresh="onRefresh">
             <articles
               v-for="value in cate.postlist"
               :key="value.id"
@@ -65,7 +65,7 @@ export default {
         pageSize: 5,
         loading: false,
         finished: false,
-        isLoading:false
+        isLoading: false
       };
     });
     this.getall();
@@ -92,6 +92,18 @@ export default {
   //   }
   // }
   methods: {
+    onRefresh() {
+      // if(this.catelist[this.active].loading===false) {
+
+      this.catelist[this.active].pageIndex = 1;
+      this.catelist[this.active].postlist.length = 0;
+      setTimeout(() => {
+        this.getall();
+      }, 1000);
+      // 向上刷新完,因为调用了getall所以finished是true的下来就加载不了数据
+      this.catelist[this.active].finished = false;
+      // }
+    },
     async getall() {
       let res = await getAllArticle({
         category: this.catelist[this.active].id,
@@ -101,8 +113,14 @@ export default {
       // console.log(res);
       // this.catelist[this.active].postlist = res.data.data;
       // this.catelist[this.active].postlist.push(...res.data.data);
+      if (this.catelist[this.active].loading) {
+        this.catelist[this.active].loading = false;
+      }
 
-      this.catelist[this.active].loading = false;
+      // 下面就是为了可以判断处于不是加载的状态，不然会一直转，不能写在onRefresh，因为那是异步，可能还没调用完就false了
+      if (this.catelist[this.active].isLoading) {
+        this.catelist[this.active].isLoading = false;
+      }
       if (res.data.data.length < this.catelist[this.active].pageSize) {
         this.catelist[this.active].finished = true;
         // this.catelist[this.active].loading = false;
@@ -110,16 +128,20 @@ export default {
       // 写上面的话因为异步，因为有些页面只有两个，可能触发没有够满屏，会继续获取重复的以至于满屏
       this.catelist[this.active].postlist.push(...res.data.data);
       // console.log(this.catelist[this.active].postlist);
+      // console.log(this.catelist[this.active]);
     },
     onLoad() {
-      this.catelist[this.active].pageIndex++;
+      // 有定时器（异步）不写下面条件会报错，而且效果有误，需要给条件,而且只能加在这里，因为上拉时候需要时间来加载，可能当时页面没有东西，就会执行list组件里的遇到没满屏自动填满，会报错
+      if(this.catelist[this.active].isLoading===false) {
+        this.catelist[this.active].pageIndex++;
+        // 加定时器只是为了效果
       setTimeout(() => {
         this.getall();
-      }, 2000);
+      }, 1000);
+      }
+      
     },
-    onRefresh(){
-
-    }
+    
   }
 };
 </script>

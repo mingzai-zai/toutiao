@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from '@/router/index.js'
 // 引入全局样式
 import '@/styles/reset.css'
-import { Toast,Uploader,Dialog,Field,Picker,Tab,Tabs,Icon,List,PullRefresh  } from 'vant'
+import { Toast,Uploader,Dialog,Field,Picker,Tab,Tabs,Icon,List,PullRefresh } from 'vant'
 Vue.use(Toast)
    .use(Uploader)
    .use(Dialog)
