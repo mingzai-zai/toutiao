@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from '@/router/index.js'
 // 引入全局样式
 import '@/styles/reset.css'
-import { Toast,Uploader,Dialog,Field,Picker,Tab,Tabs,Icon  } from 'vant'
+import { Toast,Uploader,Dialog,Field,Picker,Tab,Tabs,Icon,List,PullRefresh  } from 'vant'
 Vue.use(Toast)
    .use(Uploader)
    .use(Dialog)
@@ -12,6 +12,8 @@ Vue.use(Toast)
    .use(Tab)
    .use(Tabs)
    .use(Icon)
+   .use(List)
+   .use(PullRefresh)
 router.beforeEach((to,from,next)=>{
   // console.log(to)
   // next();

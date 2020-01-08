@@ -12,11 +12,25 @@
       </div>
     </head>
     <!-- <van-tabs v-model="active" sticky swipeable @change='change'> -->
-    <van-tabs v-model="active" sticky swipeable >
+    <van-tabs v-model="active" sticky swipeable>
       <van-tab :title="cate.name" v-for="cate in catelist" :key="cate.id">
-          <articles v-for='value in cate.postlist' :key='value.id' :post='value'></articles>
-
-        </van-tab>
+        <van-list
+          v-model="cate.loading"
+          :finished="cate.finished"
+          finished-text="没有更多了"
+          @load="onLoad"
+          :immediate-check="false"
+          :offset="10"
+        >
+          <van-pull-refresh v-model="catelist.isLoading" @refresh="onRefresh">
+            <articles
+              v-for="value in cate.postlist"
+              :key="value.id"
+              :post="value"
+            ></articles>
+          </van-pull-refresh>
+        </van-list>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -48,11 +62,13 @@ export default {
         postlist: [],
         category: value.id,
         pageIndex: 1,
-        pageSize: 11
+        pageSize: 5,
+        loading: false,
+        finished: false,
+        isLoading:false
       };
-      
     });
-    this.getall()
+    this.getall();
     //此时只会获取到当前-----头条的数据，所以我们可以使用监听
     // let res1 = await getAllArticle({
     //   category: this.catelist[this.active].id,
@@ -62,13 +78,12 @@ export default {
     // console.log(res1);
     // this.catelist[this.active].postlist = res1.data.data;
   },
-  watch:{
-      active(){
-        // console.log(this.active);
-        // 此时为了让它不每一次都需要加载，所以要限制它不断的请求，判断是否数据为空
-        if(this.catelist[this.active].postlist.length===0)
-        this.getall()
-      }
+  watch: {
+    active() {
+      // console.log(this.active);
+      // 此时为了让它不每一次都需要加载，所以要限制它不断的请求，判断是否数据为空
+      if (this.catelist[this.active].postlist.length === 0) this.getall();
+    }
   },
   // methods: {
   //   change(change){
@@ -77,14 +92,33 @@ export default {
   //   }
   // }
   methods: {
-    async getall(){
+    async getall() {
       let res = await getAllArticle({
-      category: this.catelist[this.active].id,
-      pageIndex: this.catelist[this.active].pageIndex,
-      pageSize: this.catelist[this.active].pageSize
-    });
-    // console.log(res);
-    this.catelist[this.active].postlist = res.data.data;
+        category: this.catelist[this.active].id,
+        pageIndex: this.catelist[this.active].pageIndex,
+        pageSize: this.catelist[this.active].pageSize
+      });
+      // console.log(res);
+      // this.catelist[this.active].postlist = res.data.data;
+      // this.catelist[this.active].postlist.push(...res.data.data);
+
+      this.catelist[this.active].loading = false;
+      if (res.data.data.length < this.catelist[this.active].pageSize) {
+        this.catelist[this.active].finished = true;
+        // this.catelist[this.active].loading = false;
+      }
+      // 写上面的话因为异步，因为有些页面只有两个，可能触发没有够满屏，会继续获取重复的以至于满屏
+      this.catelist[this.active].postlist.push(...res.data.data);
+      // console.log(this.catelist[this.active].postlist);
+    },
+    onLoad() {
+      this.catelist[this.active].pageIndex++;
+      setTimeout(() => {
+        this.getall();
+      }, 2000);
+    },
+    onRefresh(){
+
     }
   }
 };
