@@ -13,7 +13,7 @@
         <span class="iconfont iconjiantou1"></span>
       </div>
     </router-link>
-    <cell zuo="我的关注" you="关注的用户"></cell>
+    <cell zuo="我的关注" you="关注的用户" @click="$router.push({name:'Myfollows'})"></cell>
     <cell zuo="我的跟帖" you="跟帖/恢复"></cell>
     <cell zuo="我的收藏" you="文章/视频"></cell>
     <cell zuo="设置" you=""></cell>

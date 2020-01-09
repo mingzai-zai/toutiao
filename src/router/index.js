@@ -6,6 +6,9 @@ import Editpersonal from '@/views/Editpersonal.vue'
 import Register from '@/views/Register.vue'
 import Index from "@/views/Index.vue"
 import ArticleDetail from '@/views/ArticleDetail.vue'
+import Myfollows from '@/views/Myfollows.vue'
+import Mystar from '@/views/Mystar.vue'
+
 Vue.use(VueRouter);
 
 
@@ -17,9 +20,19 @@ let router = new VueRouter({
             component:Index
         },
         {
+            name:'Mystar',
+            path:'/mystar',
+            component:Mystar,
+        },
+        {
             name:'Login',
             path:'/login',
             component:Login,
+        },
+        {
+            name:'Myfollows',
+            path:'/myfollows',
+            component:Myfollows,
         },
         {
             name:'Register',

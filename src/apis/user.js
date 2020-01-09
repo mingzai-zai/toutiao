@@ -40,9 +40,16 @@ export const unfollow = (id) => {
     url: `/user_unfollow/${id}`
   });
 };
-//收藏
-export const shoucang = (id) => {
+
+// 收藏列表
+export const userStarList = () => {
   return axios({
-    url: `/post_star/${id}`
+    url: `/user_star`
+  });
+};
+// 关注列表
+export const userfollowList = () => {
+  return axios({
+    url: `/user_follows`
   });
 };

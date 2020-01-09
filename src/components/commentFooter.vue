@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {shoucang} from "@/apis/user.js"
+import {shoucang} from "@/apis/article.js"
 export default {
     props:['post'],
   data () {
