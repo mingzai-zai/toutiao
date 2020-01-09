@@ -3,7 +3,7 @@
       <commentson v-if='post.parent' :post='post.parent'></commentson>
       <div class="top">
           <div class="left">
-              <span>{{post.user.nickname}}</span>   10分钟
+              <span>{{post.user.nickname}}</span>   10分钟前
           </div>
           <div class="right">回复</div>
       </div>

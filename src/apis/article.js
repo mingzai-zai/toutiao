@@ -32,3 +32,12 @@ export const commentlist = (id,params) => {
       params,
     });
   };
+
+    //发布评论
+export const sendcomment = (id,data) => {
+  return axios({
+    url: `/post_comment/${id}`,
+    data,
+    method:'post'
+  });
+};

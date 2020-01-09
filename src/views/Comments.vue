@@ -1,51 +1,93 @@
 <template>
   <div class="comments">
     <myheader title="精彩评论">
-      <span slot="left" class="iconfont iconjiantou2" @click="$router.back()"></span>
+      <span
+        slot="left"
+        class="iconfont iconjiantou2"
+        @click="$router.back()"
+      ></span>
     </myheader>
     <div class="commentList">
-      <div class="item" v-for='e in commentlist' :key='e.id'>
+      <div class="item" v-for="e in commentlist" :key="e.id">
         <div class="head">
           <img :src="e.user.head_img" alt />
           <div>
-            <p>{{e.user.nickname}}</p>
-            <span>{{e.user.create_date}}</span>
+            <p>{{ e.user.nickname }}</p>
+            <span>{{ e.user.create_date }}</span>
           </div>
-          <span>回复</span>
+          <span @click="onereply(e)">回复</span>
         </div>
-        <commentson v-if='e.parent' :post='e.parent'></commentson>
-        <div class="text">{{e.content}}</div>
+        <commentson v-if="e.parent" :post="e.parent"></commentson>
+        <div class="text" >{{ e.content }}</div>
       </div>
     </div>
+    <commentFooter
+      :post="article"
+      @update="update"
+      :obj="onehuifu"
+       @reset='onehuifu=null'
+    ></commentFooter>
   </div>
 </template>
 
 <script>
-import myheader from '@/components/header.vue'
-import {commentlist} from '@/apis/article.js'
-import commentson from '@/components/commentson.vue'
+import myheader from "@/components/header.vue";
+import { commentlist, getArticleById } from "@/apis/article.js";
+import commentson from "@/components/commentson.vue";
+import commentFooter from "@/components/commentFooter.vue";
 export default {
-    data () {
-        return {
-            commentlist:[],
-        }
-    },
-  components: {
-    myheader,commentson
+  data() {
+    return {
+      commentlist: [],
+      article: {},
+      onehuifu: null
+    };
   },
-  async mounted () {
-     let res =await commentlist(this.$route.params.id,{pageSize:50}); 
-     console.log(res);
-    this.commentlist =res.data.data.length?res.data.data.map(e=>{
-        e.user.head_img='http://127.0.0.1:3000' + e.user.head_img
-        return e;
-    }) : this.commentlist
-    
+  components: {
+    myheader,
+    commentson,
+    commentFooter
+  },
+  async mounted() {
+    // 实现刷新
+    this.init();
+    let res1 = await getArticleById(this.$route.params.id);
+    console.log(res1);
+    this.article = res1.data.data;
+  },
+  methods: {
+    update() {
+      //此时要在父组件中写
+      this.init();
+      window.scrollTo(0, 0);
+    },
+    async init() {
+      // 获取全部的评论同时渲染
+      let res = await commentlist(this.$route.params.id, {
+        pageSize: 50,
+        pageIndex: 1
+      });
+    //   console.log(res);
+      this.commentlist = res.data.data.length
+        ? res.data.data.map(e => {
+            e.user.head_img = "http://127.0.0.1:3000" + e.user.head_img;
+            return e;
+          })
+        : this.commentlist;
+    },
+    onereply(value) {
+      // 只能直接在父组件渲染的子组件中传数据给子组件，不能在子组件以外把数据传给子组件
+      // 还有就是子组件中的props的成员不能修改
+      this.onehuifu = value;
+    },  
   }
-}
+};
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
+.comments {
+  padding-bottom: 60px;
+}
 .commentList {
   border-top: 5px solid #ddd;
   padding: 0 15px;
