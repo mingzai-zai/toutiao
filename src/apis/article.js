@@ -24,3 +24,11 @@ export const shoucang = (id) => {
       url: `/post_star/${id}`
     });
   };
+
+  //文章评论列表
+export const commentlist = (id,params) => {
+    return axios({
+      url: `/post_comment/${id}`,
+      params,
+    });
+  };

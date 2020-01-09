@@ -8,6 +8,7 @@ import Index from "@/views/Index.vue"
 import ArticleDetail from '@/views/ArticleDetail.vue'
 import Myfollows from '@/views/Myfollows.vue'
 import Mystar from '@/views/Mystar.vue'
+import Comments from '@/views/Comments.vue'
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,10 @@ let router = new VueRouter({
             name:'Mystar',
             path:'/mystar',
             component:Mystar,
+        },{
+            name:'Comments',
+            path:'/comments/:id',
+            component:Comments,
         },
         {
             name:'Login',
