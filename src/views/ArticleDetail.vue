@@ -40,12 +40,15 @@
       </div>
       <div class="more">更多跟帖</div>
     </div>
+    <!-- 底部评论 -->
+    <commentFooter :post='article'></commentFooter>
   </div>
 </template>
 
 <script>
 import { getArticleById, getLikeById } from "@/apis/article.js";
 import { follow, unfollow } from "@/apis/user.js";
+import commentFooter from '@/components/commentFooter.vue'
 export default {
   data() {
     return {
@@ -53,6 +56,9 @@ export default {
         user: {}
       }
     };
+  },
+  components:{
+    commentFooter
   },
   methods: {
     async dianzan() {
@@ -90,6 +96,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.articaldetail {
+  margin-bottom: 80px;
+}
 .header {
   padding: 0px 10px;
   height: 50px;
