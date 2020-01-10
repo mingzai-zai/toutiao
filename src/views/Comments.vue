@@ -17,7 +17,7 @@
           </div>
           <span @click="onereply(e)">回复</span>
         </div>
-        <commentson v-if="e.parent" :post="e.parent"></commentson>
+        <commentson v-if="e.parent" :post="e.parent" @huifu='onereply'></commentson>
         <div class="text" >{{ e.content }}</div>
       </div>
     </div>
