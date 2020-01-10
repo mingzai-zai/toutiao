@@ -41,3 +41,11 @@ export const sendcomment = (id,data) => {
     method:'post'
   });
 };
+
+// 搜索关键字
+export const getKeyWordArticle = (params) => {
+  return axios({
+    url: `/post_search/`,
+    params,
+  });
+};

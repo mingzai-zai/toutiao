@@ -10,6 +10,7 @@ import Myfollows from '@/views/Myfollows.vue'
 import Mystar from '@/views/Mystar.vue'
 import Comments from '@/views/Comments.vue'
 import Changecate from '@/views/Changecate.vue'
+import Search from '@/views/Search.vue'
 Vue.use(VueRouter);
 
 
@@ -24,7 +25,13 @@ let router = new VueRouter({
             name:'Mystar',
             path:'/mystar',
             component:Mystar,
-        },{
+        },
+        {
+            name:'Search',
+            path:'/search',
+            component:Search,
+        },
+        {
             name:'Changecate',
             path:'/changecate',
             component:Changecate,
