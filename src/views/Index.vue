@@ -13,6 +13,7 @@
     </head>
     <!-- <van-tabs v-model="active" sticky swipeable @change='change'> -->
     <van-tabs v-model="active" sticky swipeable>
+      <span class="add" @click="$router.push({ name: 'Changecate' })">+</span>
       <van-tab :title="cate.name" v-for="cate in catelist" :key="cate.id">
         <van-list
           v-model="cate.loading"
@@ -27,7 +28,7 @@
               v-for="value in cate.postlist"
               :key="value.id"
               :post="value"
-              @click='$router.push({path:`/articleDetail/${value.id}`})'
+              @click="$router.push({ path: `/articleDetail/${value.id}` })"
             ></articles>
           </van-pull-refresh>
         </van-list>
@@ -54,9 +55,18 @@ export default {
   async mounted() {
     this.id = JSON.parse(localStorage.getItem("user_msg") || "{}").id;
     // console.log(id)
-    let res = await getAllCate();
-    // console.log(res);
-    this.catelist = res.data.data;
+    if (localStorage.getItem("catelist")) {
+      this.catelist = JSON.parse(localStorage.getItem("catelist"));
+      if(localStorage.getItem("user_token")) {
+        //要么自己加要么自己先获取后再添加罗是吧
+        this.catelist.unshift({'id':999,"name":'头条','is_top':1})
+      }
+    } else {
+      let res = await getAllCate();
+      // console.log(res);
+      this.catelist = res.data.data;
+    }
+
     this.catelist = this.catelist.map(value => {
       return {
         ...value,
@@ -133,16 +143,14 @@ export default {
     },
     onLoad() {
       // 有定时器（异步）不写下面条件会报错，而且效果有误，需要给条件,而且只能加在这里，因为上拉时候需要时间来加载，可能当时页面没有东西，就会执行list组件里的遇到没满屏自动填满，会报错
-      if(this.catelist[this.active].isLoading===false) {
+      if (this.catelist[this.active].isLoading === false) {
         this.catelist[this.active].pageIndex++;
         // 加定时器只是为了效果
-      setTimeout(() => {
-        this.getall();
-      }, 1000);
+        setTimeout(() => {
+          this.getall();
+        }, 1000);
       }
-      
-    },
-    
+    }
   }
 };
 </script>
@@ -180,6 +188,21 @@ head {
     font-size: 35px;
     margin-top: 3px;
     color: #fff;
+  }
+}
+.van-tabs {
+  position: relative;
+  .add {
+    display: block;
+    height: 44px;
+    width: 44px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    line-height: 44px;
+    font-size: 30px;
+    background-color: #fff;
   }
 }
 </style>

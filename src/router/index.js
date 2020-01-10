@@ -9,7 +9,7 @@ import ArticleDetail from '@/views/ArticleDetail.vue'
 import Myfollows from '@/views/Myfollows.vue'
 import Mystar from '@/views/Mystar.vue'
 import Comments from '@/views/Comments.vue'
-
+import Changecate from '@/views/Changecate.vue'
 Vue.use(VueRouter);
 
 
@@ -25,6 +25,11 @@ let router = new VueRouter({
             path:'/mystar',
             component:Mystar,
         },{
+            name:'Changecate',
+            path:'/changecate',
+            component:Changecate,
+        },
+        {
             name:'Comments',
             path:'/comments/:id',
             component:Comments,
