@@ -4,7 +4,7 @@
       <div class="logo">
         <span class="iconfont iconnew"></span>
       </div>
-      <div class="search" @click="$router.push({name:'Search'})">
+      <div class="search" @click="$router.push({ name: 'Search' })">
         <van-icon name="search" class="search-son" />搜索新闻
       </div>
       <div class="personal" @click="$router.push({ path: `/personal/${id}` })">
@@ -13,7 +13,7 @@
     </head>
     <!-- <van-tabs v-model="active" sticky swipeable @change='change'> -->
     <van-tabs v-model="active" sticky swipeable>
-      <span class="add" @click="$router.push({ name: 'Changecate' })">+</span>
+      <!-- <span class="add" @click="$router.push({ name: 'Changecate' })">+</span> -->
       <van-tab :title="cate.name" v-for="cate in catelist" :key="cate.id">
         <van-list
           v-model="cate.loading"
@@ -53,13 +53,25 @@ export default {
     };
   },
   async mounted() {
+    document.querySelector('.van-sticky').addEventListener('click',(e)=>{
+      // console.log(111);
+      // 到了最大的那一行点击，栏目都是在内部的，所伪元素就等于在最大的旁边而已所以点击就是这个元素，而且一触发就false因为怕他往内触发且影响其他所以及时return false,因为就算点击元素时候是很难点击到van-sticky，加了伪类元素就可以直接点击到了
+      if(e.target.className==='van-sticky') {
+        // console.log(111);
+        this.$router.push({ name: 'Changecate' })
+      }
+      return false;
+    })
+    // document.querySelector('.van-sticky').onclick=function(){
+    //   console.log(111);
+    // }
     this.id = JSON.parse(localStorage.getItem("user_msg") || "{}").id;
     // console.log(id)
     if (localStorage.getItem("catelist")) {
       this.catelist = JSON.parse(localStorage.getItem("catelist"));
-      if(localStorage.getItem("user_token")) {
+      if (localStorage.getItem("user_token")) {
         //要么自己加要么自己先获取后再添加罗是吧
-        this.catelist.unshift({'id':999,"name":'头条','is_top':1})
+        this.catelist.unshift({ id: 999, name: "头条", is_top: 1 });
       }
     } else {
       let res = await getAllCate();
@@ -191,18 +203,31 @@ head {
   }
 }
 .van-tabs {
-  position: relative;
-  .add {
-    display: block;
-    height: 44px;
-    width: 44px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    text-align: center;
-    line-height: 44px;
-    font-size: 30px;
-    background-color: #fff;
+  // position: relative;
+  // .add {
+  //   display: block;
+  //   height: 44px;
+  //   width: 44px;
+  //   position: absolute;
+  //   top: 0;
+  //   right: 0;
+  //   text-align: center;
+  //   line-height: 44px;
+  //   font-size: 30px;
+  //   background-color: #fff;
+  // }
+  /deep/.van-sticky {
+    &::after {
+      position: absolute;
+      content: "+";
+      display: block;
+      font-size: 40px;
+      right: 0;
+      top: 0;
+      background-color: #fff;
+      text-align: center;
+      line-height: 40px;
+    }
   }
 }
 </style>
